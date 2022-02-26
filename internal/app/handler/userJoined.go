@@ -11,7 +11,7 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 	ntw "moul.io/number-to-words"
 
-	"github.com/pcherednichenko/spam_fighter_bot/internal/app/data"
+	"github.com/homeak4ua/spam_fighter_bot/internal/app/data"
 )
 
 func UserJoined(l *zap.SugaredLogger, b *tb.Bot, s data.Storage) func(m *tb.Message) {
