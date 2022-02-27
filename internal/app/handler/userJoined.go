@@ -29,6 +29,7 @@ func UserJoined(l *zap.SugaredLogger, b *tb.Bot, s data.Storage) func(m *tb.Mess
 		if excludedUser(m.UserJoined) {
 			return
 		}
+		time.Sleep(time.Second * 10)
 		username := getUsername(m.UserJoined)
 		welcomeMessageText := getWelcomeMessageText(username, m.Chat.Title,
 			fistNumberInWordsEn, secondNumberInWordsEn, fistNumberInWordsRu, secondNumberInWordsRu)
@@ -38,7 +39,7 @@ func UserJoined(l *zap.SugaredLogger, b *tb.Bot, s data.Storage) func(m *tb.Mess
 			return
 		}
 		s.Add(m.Chat, m.UserJoined, data.Info{WelcomeMessage: welcomeMessage, RightAnswer: firstNumber * secondNumber})
-		// Goroutine to delete message after 2 minutes
+		// Goroutine to delete message after 5 minutes
 		// and block user if he or she still in the list
 		go checkAndBanUser(l, b, welcomeMessage, s, m, username)
 	}
@@ -56,7 +57,7 @@ func excludedUser(u *tb.User) bool {
 }
 
 func checkAndBanUser(l *zap.SugaredLogger, b *tb.Bot, welcomeMessage *tb.Message, s data.Storage, m *tb.Message, username string) {
-	time.Sleep(time.Minute * 2)
+	time.Sleep(time.Minute * 5)
 	err := b.Delete(welcomeMessage)
 	if err != nil {
 		// maybe message already deleted because of correct answer
